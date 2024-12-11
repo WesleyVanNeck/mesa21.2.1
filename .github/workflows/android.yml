@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set ndkver,sdkver and work_dir
+        run: |
+          echo "NDK_VER=android-ndk-r27c" >> $GITHUB_ENV
+          echo "SDK_VER=33" >> $GITHUB_ENV
+          echo "WORK_DIR=$(pwd)" >> $GITHUB_ENV
+
       - name: Build
         run: |
           ln -s vulkan_android.pc vulkan.pc
@@ -29,8 +35,6 @@ jobs:
           cp -R /usr/include/xcb include/
           cp -R /usr/include/GL/* include/GL/
           pip3 install mako
-          export ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk-bundle"
-          # -Dglx=gallium-xlib \
           meson "build-android-${{matrix.arch}}" \
             --prefix=/tmp/zink \
             --cross-file "android-${{matrix.arch}}" \
@@ -50,7 +54,6 @@ jobs:
             -Dgallium-drivers=virgl \
             -Dshared-glapi=false
           ninja -C "build-android-${{matrix.arch}}" install
-          # cp "build-android-${{matrix.arch}}/src/gallium/drivers/zink/libzink.a" /tmp/zink/lib/
           rm /tmp/zink/lib/libOSMesa.so /tmp/zink/lib/libOSMesa.so.8
           mv /tmp/zink/lib/libOSMesa.so.8.0.0 /tmp/zink/lib/libOSMesa.so.8
           cp /tmp/zink/lib/libOSMesa.so.8 /tmp/zink/lib/libOSMesa_unstripped.so.8
