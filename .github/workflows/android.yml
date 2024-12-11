@@ -2,7 +2,8 @@
 name: Build Android
 
 on:
-  [push, pull_request]
+  push:
+  pull_request:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -17,7 +18,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Build
         run: |
@@ -59,7 +60,7 @@ jobs:
             /usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/${{matrix.arch}}-linux-android-strip /tmp/zink/lib/libOSMesa.so.8
           fi
       - name: Upload libraries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: libzink_${{matrix.arch}}
           path: /tmp/zink
