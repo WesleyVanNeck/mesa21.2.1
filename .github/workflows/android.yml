@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set Up Environment
+        run: |
+          sudo apt update
+          sudo apt install -y libxrandr-dev libxxf86vm-dev libxcb-*-dev libx11-xcb-dev libxfixes-dev libdrm-dev libx11-dev
+          pip3 install mako meson ninja
+
       - name: Set ndkver,sdkver and work_dir
         run: |
           echo "NDK_VER=android-ndk-r27c" >> $GITHUB_ENV
@@ -36,17 +42,13 @@ jobs:
       - name: Build
         run: |
           ln -s vulkan_android.pc vulkan.pc
-          sudo apt update
-          sudo apt install -y libxrandr-dev libxxf86vm-dev libxcb-*-dev libx11-xcb-dev libxfixes-dev libdrm-dev libx11-dev
-          pip3 install mako meson ninja
           cp -R /usr/include/X11 include/
           cp -R /usr/include/xcb include/
           cp -R /usr/include/GL/* include/GL/
-          pip3 install mako
-          export ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk-bundle"
-          meson "build-android-${{matrix.arch}}" \
+          envsubst <android-${{matrix.arch}} >build-crossfile
+          meson "build-android" \
             --prefix=/tmp/zink \
-            --cross-file "android-${{matrix.arch}}" \
+            --cross-file "build-crossfile" \
             --buildtype debug \
             -Dplatforms=android \
             -Dplatform-sdk-version=24 \
@@ -62,17 +64,10 @@ jobs:
             -Dvulkan-drivers= \
             -Dgallium-drivers=virgl \
             -Dshared-glapi=false
-          ninja -C "build-android-${{matrix.arch}}" install
-          rm /tmp/zink/lib/libOSMesa.so /tmp/zink/lib/libOSMesa.so.8
-          mv /tmp/zink/lib/libOSMesa.so.8.0.0 /tmp/zink/lib/libOSMesa.so.8
-          cp /tmp/zink/lib/libOSMesa.so.8 /tmp/zink/lib/libOSMesa_unstripped.so.8
-          if [ "${{matrix.arch}}" == "arm32" ]; then
-            /usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-strip /tmp/zink/lib/libOSMesa.so.8
-          else
-            /usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/${{matrix.arch}}-linux-android-strip /tmp/zink/lib/libOSMesa.so.8
-          fi
+          ninja -C "build-android" install
+          cp /tmp/zink/lib/libOSMesa.so.8.0.0 /tmp/zink/lib/libOSMesa.so.8
       - name: Upload libraries
         uses: actions/upload-artifact@v4
         with:
-          name: libzink_${{matrix.arch}}
-          path: /tmp/zink
+          name: libOSMesa_${{matrix.arch}}
+          path: /tmp/zink/lib/libOSMesa.so.8
