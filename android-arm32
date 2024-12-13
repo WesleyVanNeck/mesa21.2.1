@@ -5,10 +5,11 @@ c = ['ccache', ndk + '/armv7a-linux-androideabi${SDK_VER}-clang', '-O3', '-DVK_U
 cpp = ['ccache', ndk + '/armv7a-linux-androideabi${SDK_VER}-clang++', '-O3', '-DVK_USE_PLATFORM_ANDROID_KHR', '-fPIC', '-fno-exceptions', '-fno-unwind-tables', '-fno-asynchronous-unwind-tables', '-static-libstdc++']
 c_ld = 'lld'
 cpp_ld = 'lld'
-strip = ndk + '/armv7a-linux-androideabi-strip'
-pkgconfig = ['env', 'PKG_CONFIG_LIBDIR=.:/tmp/drm-static/lib/pkgconfig', '/usr/bin/pkg-config']
+strip = ndk + '/arm-linux-androideabi29-strip'
+pkgconfig = ['env', 'PKG_CONFIG_LIBDIR=/home/runner/work/mesa/mesa', '/usr/bin/pkg-config']
+
 [host_machine]
-system = 'android'
+system = 'linux'
 cpu_family = 'arm'
 cpu = 'armv7'
 endian = 'little'
