@@ -6,7 +6,7 @@ cpp = ['ccache', '$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/x8
 c_ld = 'lld'
 cpp_ld = 'lld'
 strip = '$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android-strip'
-pkgconfig = ['env', 'PKG_CONFIG_LIBDIR=/home/runner/work/mesa/mesa', '/usr/bin/pkg-config']
+pkgconfig = ['env', 'PKG_CONFIG_LIBDIR=/home/runner/work/mesa21.2.1/mesa21.2.1', '/usr/bin/pkg-config']
 
 [host_machine]
 system = 'linux'

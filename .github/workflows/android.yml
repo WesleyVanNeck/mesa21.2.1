@@ -29,6 +29,7 @@ jobs:
           cp -R /usr/include/xcb include/
           cp -R /usr/include/GL/* include/GL/
           pip3 install mako
+          export ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk-bundle"
           meson "build-android-${{matrix.arch}}" \
             --prefix=/tmp/zink \
             --cross-file "android-${{matrix.arch}}" \
