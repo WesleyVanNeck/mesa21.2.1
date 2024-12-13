@@ -41,10 +41,10 @@ jobs:
 
       - name: Build
         run: |
-          ln -s vulkan_android.pc vulkan.pc
-          cp -R /usr/include/X11 include/
-          cp -R /usr/include/xcb include/
-          cp -R /usr/include/GL/* include/GL/
+          # ln -s vulkan_android.pc vulkan.pc
+          # cp -R /usr/include/X11 include/
+          # cp -R /usr/include/xcb include/
+          # cp -R /usr/include/GL/* include/GL/
           envsubst <android-${{matrix.arch}} >build-crossfile
           meson "build-android" \
             --prefix=/tmp/zink \
