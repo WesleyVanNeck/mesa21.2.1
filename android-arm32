@@ -1,12 +1,12 @@
 [binaries]
-ndk = '${WORK_DIR}/${NDK_VER}' + '/toolchains/llvm/prebuilt/linux-x86_64/bin'
-ar = ndk + '/llvm-ar'
-c = ['ccache', ndk + '/armv7a-linux-androideabi${SDK_VER}-clang', '-O3', '-DVK_USE_PLATFORM_ANDROID_KHR', '-fPIC']
-cpp = ['ccache', ndk + '/armv7a-linux-androideabi${SDK_VER}-clang++', '-O3', '-DVK_USE_PLATFORM_ANDROID_KHR', '-fPIC', '-fno-exceptions', '-fno-unwind-tables', '-fno-asynchronous-unwind-tables', '-static-libstdc++']
+# ndk = '${WORK_DIR}/${NDK_VER}' + '/toolchains/llvm/prebuilt/linux-x86_64/bin'
+ar = '$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar'
+c = ['ccache', '$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang', '-O3', '-DVK_USE_PLATFORM_ANDROID_KHR', '-fPIC']
+cpp = ['ccache', '$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang++', '-O3', '-DVK_USE_PLATFORM_ANDROID_KHR', '-fPIC', '-fno-exceptions', '-fno-unwind-tables', '-fno-asynchronous-unwind-tables', '-static-libstdc++']
 c_ld = 'lld'
 cpp_ld = 'lld'
-strip = ndk + '/arm-linux-androideabi29-strip'
-pkgconfig = ['env', 'PKG_CONFIG_LIBDIR=/home/runner/work/mesa/mesa', '/usr/bin/pkg-config']
+strip = '$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi29-strip'
+pkgconfig = ['env', 'PKG_CONFIG_LIBDIR=/home/runner/work/mesa21.2.1/mesa21.2.1', '/usr/bin/pkg-config']
 
 [host_machine]
 system = 'linux'

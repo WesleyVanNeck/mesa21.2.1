@@ -20,19 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set ndkver,sdkver and work_dir
-        run: |
-          echo "NDK_VER=android-ndk-r27c" >> $GITHUB_ENV
-          echo "SDK_VER=24" >> $GITHUB_ENV
-          echo "WORK_DIR=$(pwd)" >> $GITHUB_ENV
-
-      - name: Download and extract NDK
-        run: |
-          echo "Downloading android-ndk from google server ..."
-          curl https://dl.google.com/android/repository/${NDK_VER}-linux.zip --output ${NDK_VER}-linux.zip &> /dev/null
-          echo "Extracting android-ndk to a folder ..."
-          unzip ${NDK_VER}-linux.zip &> /dev/null
-
       - name: Build
         run: |
           ln -s vulkan_android.pc vulkan.pc
