@@ -365,7 +365,7 @@ osmesa_st_framebuffer_flush_front(struct st_context_iface *stctx,
    struct osmesa_buffer *osbuffer = stfbi_to_osbuffer(stfbi);
    struct pipe_resource *res = osbuffer->textures[statt];
    unsigned bpp;
-   int dst_stride;
+ //  int dst_stride;
 
    if (statt != ST_ATTACHMENT_FRONT_LEFT)
       return false;
